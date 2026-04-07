@@ -1,0 +1,116 @@
+---
+title: "Dashboard integrations"
+description: "Use Dashboard Icons with Homarr, Homepage, Dashy, Heimdall, and other self-hosted dashboards"
+---
+
+Dashboard Icons works with any self-hosted dashboard that accepts an image URL. You don't need to download icons or host them yourself — paste the CDN URL directly into your dashboard configuration.
+
+<Note>Use the CDN URL directly in your dashboard configuration. No downloads or self-hosting required.</Note>
+
+<Tip>Match the icon variant to your dashboard's theme: use the `-light` variant on dark-themed dashboards, and the `-dark` variant on light-themed dashboards.</Tip>
+
+## Dashboard setup
+
+<Tabs>
+  <Tab title="Homarr">
+    Homarr is a modern dashboard for self-hosted services. To use an icon:
+
+    <Steps>
+      <Step title="Open service settings">
+        In your Homarr dashboard, click **Edit** on a service tile to open its settings.
+      </Step>
+      <Step title="Paste the icon URL">
+        In the **Icon** field, paste the CDN URL for the icon you want:
+
+        ```text
+        https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+        ```
+      </Step>
+      <Step title="Save">
+        Click **Save**. The icon will appear on the tile immediately.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Homepage">
+    Homepage (gethomepage) uses YAML configuration files. Set the `icon` field on any service to the CDN URL.
+
+    ```yaml
+    # services.yaml
+    - Media:
+        - Plex:
+            href: https://plex.tv
+            description: Media server
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+        - Nextcloud:
+            href: https://nextcloud.example.com
+            description: File storage
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/nextcloud.svg
+        - Jellyfin:
+            href: https://jellyfin.example.com
+            description: Media server
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/jellyfin.svg
+    ```
+  </Tab>
+
+  <Tab title="Dashy">
+    Dashy uses a `conf.yml` configuration file. Set the `icon` field under each item to the CDN URL.
+
+    ```yaml
+    # conf.yml
+    sections:
+      - name: Media
+        items:
+          - title: Plex
+            description: Media server
+            url: https://plex.tv
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+          - title: Jellyfin
+            description: Open source media server
+            url: https://jellyfin.example.com
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/jellyfin.svg
+          - title: Nextcloud
+            description: File storage
+            url: https://nextcloud.example.com
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/nextcloud.svg
+    ```
+  </Tab>
+
+  <Tab title="Heimdall">
+    Heimdall lets you set a custom icon for each application from its admin interface.
+
+    <Steps>
+      <Step title="Open application settings">
+        In Heimdall, click the settings icon on an application tile.
+      </Step>
+      <Step title="Paste the icon URL">
+        In the **Application Icon** field, paste the CDN URL:
+
+        ```text
+        https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+        ```
+      </Step>
+      <Step title="Save">
+        Click **Save**. The icon will update on the tile.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Other dashboards">
+    Any dashboard or application that accepts an image URL supports Dashboard Icons. Use the standard CDN URL pattern:
+
+    ```text
+    https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/<format>/<icon-name>.<format>
+    ```
+
+    For example:
+
+    ```text
+    https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+    https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/plex.png
+    https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/plex.webp
+    ```
+
+    Paste this URL wherever your dashboard asks for an icon, logo, or image URL. No account, API key, or download is needed.
+  </Tab>
+</Tabs>

@@ -1,0 +1,76 @@
+---
+title: "Finding icons"
+description: "Search and discover icons using the web interface or explore the collection directly"
+---
+
+The collection contains 1800+ icons for services, applications, and tools. There are several ways to find the icon you need.
+
+## dashboardicons.com
+
+The primary way to search the collection is the web interface at [dashboardicons.com](https://dashboardicons.com).
+
+<Steps>
+  <Step title="Search by name or alias">
+    Type the service name in the search bar. The search checks icon names, aliases, and categories.
+
+    For example, searching **nextcloud** returns `nextcloud`, `nextcloud-calendar`, `nextcloud-contacts`, and other related icons.
+  </Step>
+  <Step title="Browse by category">
+    Filter icons by category to browse related services. Available categories include `network`, `monitoring`, `media-servers`, and more.
+  </Step>
+  <Step title="Select an icon">
+    Click any icon to open its detail view. You can see all available formats and variants.
+  </Step>
+  <Step title="Download or copy the URL">
+    Choose your preferred format (SVG, PNG, or WebP), then either download the file or copy the direct CDN URL to use in your dashboard.
+  </Step>
+</Steps>
+
+## How search works
+
+Each icon has a **name**, a list of **aliases**, and one or more **categories** stored in metadata. Search checks all three fields, so you can find icons using alternative service names.
+
+Examples of aliases in practice:
+
+| Search term | Resolves to |
+|-------------|-------------|
+| Plex Media Server | `plex` |
+| Pi-Hole | `pi-hole` |
+| Nextcloud Calendar | `nextcloud-calendar` |
+| Home Assistant | `home-assistant` |
+
+<Note>Icon names are always kebab-case (lowercase with hyphens). Use this format when constructing CDN URLs manually.</Note>
+
+## Browsing the GitHub repository
+
+You can also browse icons directly in the repository. The `/svg/` directory contains every icon as an SVG file, named using the kebab-case convention.
+
+```text
+https://github.com/homarr-labs/dashboard-icons/tree/main/svg
+```
+
+This is useful if you want to check whether a specific icon exists or browse the full list without using the web interface.
+
+## Requesting a missing icon
+
+If you cannot find an icon for the service you need, you can request it:
+
+<Tip>Use the submission form at [dashboardicons.com](https://dashboardicons.com) to request missing icons. This is the fastest path to review and publishing — submissions can be approved directly by admins without going through GitHub.</Tip>
+
+**Preferred method:**
+
+<Steps>
+  <Step title="Visit dashboardicons.com">
+    Go to [dashboardicons.com](https://dashboardicons.com) and open the icon submission form.
+  </Step>
+  <Step title="Fill in the details">
+    Provide the service name, a link to the service, and optionally upload an icon file.
+  </Step>
+  <Step title="Submit">
+    Submit the form. Admins and contributors review submissions and can publish them quickly.
+  </Step>
+</Steps>
+
+**Alternative method:**
+
+Open a [GitHub issue](https://github.com/homarr-labs/dashboard-icons/issues/new/choose) using the icon request template. This path may take longer to review than the submission form.

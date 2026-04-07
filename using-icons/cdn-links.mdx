@@ -1,0 +1,95 @@
+---
+title: "CDN Links"
+description: "Use icons directly in your dashboard via CDN — no downloads required"
+---
+
+Every icon in the collection is available via CDN. You can reference icons by URL in any dashboard, configuration file, or HTML page without downloading anything.
+
+## URL pattern
+
+```
+<Base URL>/<Format>/<Icon Name>.<Format>
+```
+
+<Note>All icon names use kebab-case (lowercase with hyphens). For example, "Nextcloud Calendar" becomes `nextcloud-calendar`.</Note>
+
+## Base URL options
+
+<CardGroup cols={2}>
+  <Card title="jsDelivr (recommended)" icon="bolt">
+    `https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons`
+
+    Globally cached CDN with high availability and fast delivery worldwide.
+  </Card>
+  <Card title="GitHub Direct" icon="github">
+    `https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main`
+
+    Direct access to the GitHub repository. No CDN caching — slower and less reliable for production use.
+  </Card>
+</CardGroup>
+
+<Tip>Use jsDelivr for production. It caches icons across a global CDN network, reducing latency and improving reliability compared to fetching directly from GitHub.</Tip>
+
+## Format examples
+
+Replace the format segment and file extension to request the icon in your preferred format:
+
+<CodeGroup>
+
+```text SVG
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+```
+
+```text PNG
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/plex.png
+```
+
+```text WebP
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/plex.webp
+```
+
+</CodeGroup>
+
+## Using icons in HTML
+
+```html
+<img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg" alt="Plex" />
+```
+
+## Light and dark variants
+
+Some icons have `-light` and `-dark` suffixed variants optimized for different background colors. Use the variant that contrasts with your dashboard's background.
+
+<CodeGroup>
+
+```text Light variant (for dark backgrounds)
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg
+```
+
+```text Dark variant (for light backgrounds)
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-dark.svg
+```
+
+</CodeGroup>
+
+```html
+<!-- On a dark-themed dashboard -->
+<img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg" alt="GitHub" />
+
+<!-- On a light-themed dashboard -->
+<img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-dark.svg" alt="GitHub" />
+```
+
+Not every icon has light and dark variants — only icons that require theme-specific adjustments include them. See [Formats and variants](/using-icons/formats-and-variants) for details.
+
+## Downloading icons via command line
+
+If you prefer to download icons locally rather than reference them by URL:
+
+```bash
+# Download with curl
+curl -O https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/nextcloud.svg
+
+# Download with wget
+wget https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/nextcloud.svg
+```

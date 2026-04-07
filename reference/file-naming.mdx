@@ -1,0 +1,92 @@
+---
+title: "File Naming"
+description: "Naming conventions for icon files in the Dashboard Icons collection"
+---
+
+All icon files follow a consistent naming convention. Understanding it lets you construct file paths and CDN URLs without looking up each icon individually.
+
+## Kebab-case names
+
+Icon filenames use **kebab-case**: all lowercase letters, with words separated by hyphens. No spaces, underscores, or uppercase letters are allowed.
+
+| Application name | Icon name |
+|-----------------|-----------|
+| Plex | `plex` |
+| Nextcloud Calendar | `nextcloud-calendar` |
+| Home Assistant | `home-assistant` |
+| Pi-hole | `pi-hole` |
+| AdGuard Home | `adguard-home` |
+
+<Note>The icon name is also the key used in `metadata.json`. If you know the icon name, you can look up its metadata entry directly.</Note>
+
+## Variant suffixes
+
+Icons that require theme-specific versions include a suffix before the file extension:
+
+| Suffix | Purpose | Background |
+|--------|---------|------------|
+| `-light` | Light variant | For dark backgrounds |
+| `-dark` | Dark variant | For light backgrounds |
+| `-wordmark-light` | Light wordmark variant | For dark backgrounds |
+| `-wordmark-dark` | Dark wordmark variant | For light backgrounds |
+
+For example, an icon with wordmark variants looks like:
+
+```text
+svg/perplexity.svg
+svg/perplexity-wordmark-light.svg
+svg/perplexity-wordmark-dark.svg
+```
+
+And an icon with color variants:
+
+```text
+svg/github.svg
+svg/github-light.svg
+svg/github-dark.svg
+```
+
+<Tip>Not every icon has all variants. Check the `colors` and `wordmark` fields in `metadata.json` to see which variants exist for a given icon.</Tip>
+
+## File path pattern
+
+The full path for any icon file follows this pattern:
+
+```text
+{format}/{icon-name}{variant-suffix}.{format}
+```
+
+Where:
+- `{format}` is `svg`, `png`, or `webp`
+- `{icon-name}` is the kebab-case icon name
+- `{variant-suffix}` is empty for the base icon, or one of `-light`, `-dark`, `-wordmark-light`, `-wordmark-dark`
+
+## File examples
+
+| File | Description |
+|------|-------------|
+| `svg/plex.svg` | Standard Plex icon |
+| `svg/github-light.svg` | GitHub icon for dark backgrounds |
+| `svg/github-dark.svg` | GitHub icon for light backgrounds |
+| `svg/perplexity-wordmark-light.svg` | Perplexity wordmark for dark backgrounds |
+| `svg/perplexity-wordmark-dark.svg` | Perplexity wordmark for light backgrounds |
+| `png/plex.png` | Plex icon in PNG format |
+| `webp/nextcloud-calendar.webp` | Nextcloud Calendar in WebP |
+
+## CDN URL construction
+
+To build a CDN URL, use the jsDelivr base URL followed by the file path:
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/{format}/{icon-name}.{format}
+```
+
+Examples:
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/home-assistant.svg
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/pi-hole.png
+```
+
+See [CDN Links](/using-icons/cdn-links) for more details on using icons via URL.

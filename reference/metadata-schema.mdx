@@ -1,0 +1,178 @@
+---
+title: "Metadata Schema"
+description: "Reference for the metadata.json icon registry format and field definitions"
+---
+
+`metadata.json` is the central registry file for the Dashboard Icons collection. Every icon in the collection has an entry here describing its format, aliases, categories, contributor information, and theme variant references.
+
+## Accessing metadata.json
+
+The file is publicly available at:
+
+```text
+https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/metadata.json
+```
+
+The top-level keys are icon names in kebab-case. Each key maps to an object describing that icon.
+
+## Example entry
+
+```json
+{
+  "dagster": {
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+      "timestamp": "2025-02-07T08:48:00Z",
+      "author": {
+        "id": 29390136,
+        "name": "josmarcristello"
+      }
+    },
+    "colors": {
+      "dark": "dagster-dark",
+      "light": "dagster-light"
+    }
+  }
+}
+```
+
+An icon with aliases and categories looks like:
+
+```json
+{
+  "8311": {
+    "base": "svg",
+    "aliases": [
+      "8311 community"
+    ],
+    "categories": [
+      "network",
+      "monitoring"
+    ],
+    "update": {
+      "timestamp": "2026-01-20T12:24:26.174Z",
+      "author": {
+        "id": "9n7fcjzcmecpv0l",
+        "name": "jesus.otero95@gmail.com"
+      }
+    }
+  }
+}
+```
+
+## Field reference
+
+<ResponseField name="base" type="string" required>
+  The base file format of the icon. Currently always `"svg"` — all icons are sourced as SVG, with PNG and WebP generated automatically.
+</ResponseField>
+
+<ResponseField name="aliases" type="string[]" required>
+  Alternative names for the icon used in search. Helps users find an icon by a common alternate name (e.g., searching "Podcast Player" to find `google-podcasts`). May be an empty array.
+</ResponseField>
+
+<ResponseField name="categories" type="string[]" required>
+  Category tags that classify the icon (e.g., `"network"`, `"monitoring"`, `"media-servers"`). Used for filtering on dashboardicons.com. May be an empty array. See [Categories](/reference/categories) for the full list.
+</ResponseField>
+
+<ResponseField name="update" type="object" required>
+  Metadata about the most recent update to the icon.
+
+  <Expandable title="update fields">
+    <ResponseField name="update.timestamp" type="string" required>
+      ISO 8601 timestamp of when the icon was last added or updated (e.g., `"2025-02-07T08:48:00Z"`).
+    </ResponseField>
+
+    <ResponseField name="update.author" type="object" required>
+      The contributor who last updated the icon.
+
+      <Expandable title="author fields">
+        <ResponseField name="update.author.id" type="number | string" required>
+          The contributor's identifier. A **numeric** value is a GitHub user ID. A **string** value is a PocketBase user ID (used for submissions via the dashboardicons.com web form).
+        </ResponseField>
+
+        <ResponseField name="update.author.name" type="string">
+          Display name of the contributor. May be a GitHub username or an email address depending on the submission method.
+        </ResponseField>
+
+        <ResponseField name="update.author.login" type="string">
+          GitHub username of the contributor. Present on entries submitted via GitHub.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="colors" type="object">
+  References to theme variant icons. Omitted when the icon has no light/dark variants.
+
+  <Expandable title="colors fields">
+    <ResponseField name="colors.dark" type="string">
+      The name (without extension) of the dark-theme variant icon — intended for use on **light backgrounds**. For example, `"dagster-dark"` refers to `svg/dagster-dark.svg`.
+    </ResponseField>
+
+    <ResponseField name="colors.light" type="string">
+      The name (without extension) of the light-theme variant icon — intended for use on **dark backgrounds**. For example, `"dagster-light"` refers to `svg/dagster-light.svg`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="wordmark" type="object">
+  References to wordmark variant icons (logo + brand text). Omitted when no wordmark variant exists.
+
+  <Expandable title="wordmark fields">
+    <ResponseField name="wordmark.dark" type="string">
+      The name (without extension) of the dark-theme wordmark variant, for use on **light backgrounds**.
+    </ResponseField>
+
+    <ResponseField name="wordmark.light" type="string">
+      The name (without extension) of the light-theme wordmark variant, for use on **dark backgrounds**.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## TypeScript types
+
+The following types from the project source fully describe the metadata structure:
+
+```typescript
+export type IconAuthor = {
+  id: number | string
+  github_id?: string
+  name?: string
+  login?: string
+}
+
+export type IconUpdate = {
+  timestamp: string
+  author: IconAuthor
+}
+
+export type IconColors = {
+  dark?: string
+  light?: string
+}
+
+export type IconWordmarkColors = {
+  dark?: string
+  light?: string
+}
+
+export type Icon = {
+  base: string | "svg" | "png" | "webp"
+  aliases: string[]
+  categories: string[]
+  update: IconUpdate
+  colors?: IconColors
+  wordmark?: IconWordmarkColors
+}
+
+export type IconFile = {
+  [key: string]: Icon
+}
+```
+
+<Note>
+  The `colors` and `wordmark` fields are optional. When absent, the icon has only a single base file with no theme variants.
+</Note>

@@ -1,0 +1,84 @@
+{
+  "projectType": "general",
+  "projectName": "Dashboard Icons",
+  "projectDescription": "A curated collection of 1800+ high-quality icons for self-hosted dashboards, available in SVG, PNG, and WebP formats with light/dark variants, delivered via CDN.",
+  "theme": "willow",
+  "primaryColor": "#747474",
+  "lightColor": "#131313",
+  "darkColor": "#d4d9d2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Using Icons",
+            "pages": [
+              "using-icons/cdn-links",
+              "using-icons/formats-and-variants",
+              "using-icons/dashboard-integrations",
+              "using-icons/searching-icons"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/submitting-icons",
+              "contributing/icon-specifications",
+              "contributing/improving-the-repo"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Icon Schema",
+            "pages": [
+              "reference/metadata-schema",
+              "reference/file-naming",
+              "reference/categories"
+            ]
+          },
+          {
+            "group": "Automation",
+            "pages": [
+              "reference/add-icon-workflow",
+              "reference/scripts"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "1800+ curated icons for services, applications, and self-hosted tools",
+    "Multiple formats: SVG (source), PNG and WebP (512px auto-generated)",
+    "Light and dark icon variants for theme compatibility",
+    "CDN delivery via jsDelivr for fast global access",
+    "Searchable web interface at dashboardicons.com",
+    "Community submission system with admin review via PocketBase backend",
+    "GitHub Actions workflow for automated icon import and metadata updates",
+    "Integration with Homarr, Homepage, Dashy, Heimdall, and other dashboards",
+    "Kebab-case naming convention with alias and category metadata"
+  ],
+  "publicApiSurface": [
+    "CDN URL pattern: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/{format}/{icon-name}.{format}",
+    "metadata.json: full icon registry with aliases, categories, variants, and update history",
+    "SVG directory: /svg/{icon-name}.svg",
+    "PNG directory: /png/{icon-name}.png",
+    "WebP directory: /webp/{icon-name}.webp",
+    "Light variant: {icon-name}-light.{format}",
+    "Dark variant: {icon-name}-dark.{format}",
+    "Wordmark variants: {icon-name}-wordmark-light.{format}, {icon-name}-wordmark-dark.{format}",
+    "Web API: getAllIcons(), getIconData(iconName), getIconsArray(), getTotalIcons(), getRecentlyAddedIcons(limit)"
+  ]
+}

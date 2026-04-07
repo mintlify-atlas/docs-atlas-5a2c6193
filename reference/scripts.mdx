@@ -1,0 +1,166 @@
+---
+title: "Scripts Reference"
+description: "Reference for the automation scripts used to maintain the Dashboard Icons collection"
+---
+
+The `scripts/` directory contains Python and TypeScript scripts that handle collection maintenance tasks: importing submissions, generating metadata, and converting icon assets between formats. These scripts are run as part of the CI/CD pipeline and are primarily intended for repository maintainers.
+
+<Note>
+  These scripts are for repository maintainers. They require access to the PocketBase instance and, in some cases, external tools like Inkscape. You do not need to run them to use or browse the icon collection.
+</Note>
+
+## import-icon.ts
+
+A TypeScript script (run with [Bun](https://bun.sh)) that imports a single accepted PocketBase submission into the collection. This is the script invoked by the [`add-icon.yml`](/reference/add-icon-workflow) GitHub Actions workflow.
+
+**Usage**
+
+```bash
+bun scripts/import-icon.ts --submission-id <ID> [--dry-run]
+```
+
+**Arguments**
+
+<ParamField path="--submission-id" type="string" required>
+  The PocketBase record ID of the submission to import.
+</ParamField>
+
+<ParamField path="--dry-run" type="boolean">
+  Preview changes without writing any files, updating `metadata.json`, or marking the submission as added in PocketBase.
+</ParamField>
+
+**Environment variables**
+
+<ParamField path="PB_URL" type="string" required>
+  PocketBase base URL (e.g., `https://pb.example.com`). Required at runtime.
+</ParamField>
+
+<ParamField path="PB_ADMIN_TOKEN" type="string" required>
+  PocketBase superuser or impersonation token used to authenticate API requests.
+</ParamField>
+
+**What it does**
+
+<Steps>
+  <Step title="Parse arguments and validate environment">
+    Reads `--submission-id` from CLI arguments and requires `PB_URL` and `PB_ADMIN_TOKEN` to be set as environment variables.
+  </Step>
+  <Step title="Fetch the submission from PocketBase">
+    Calls `GET /api/collections/submissions/records/:id?expand=created_by,approved_by` to retrieve the submission record and its expanded user data.
+  </Step>
+  <Step title="Resolve asset targets">
+    Builds a list of variant targets (base, light, dark, wordmark-light, wordmark-dark) from the submission's `extras` field, then matches each uploaded asset file to its target destination filename.
+  </Step>
+  <Step title="Download assets to the repository">
+    Downloads each asset from PocketBase and writes it to the correct directory based on file extension: `svg/`, `png/`, or `webp/`.
+  </Step>
+  <Step title="Upsert metadata.json">
+    Reads the current `metadata.json`, writes or overwrites the entry for this icon with its base format, aliases, categories, theme variant references, and author attribution, then saves the file.
+  </Step>
+  <Step title="Mark the submission as added">
+    Sends a `PATCH` request to PocketBase to set the submission's `status` field to `added_to_collection`.
+  </Step>
+  <Step title="Write GitHub Actions outputs">
+    If the `GITHUB_OUTPUT` environment variable is set, writes `submission_name`, `approver`, and `co_authors` output values for use in downstream workflow steps.
+  </Step>
+</Steps>
+
+---
+
+## generate_metadata.py
+
+A Python script that regenerates the top-level `metadata.json` file by combining individual per-icon JSON files from the `meta/` directory.
+
+**Usage**
+
+```bash
+python scripts/generate_metadata.py
+```
+
+**What it does**
+
+Scans all `*.json` files in the `meta/` directory. For each file, it reads the JSON content and uses the filename stem as the icon key. All entries are merged into a single dictionary and written to `metadata.json` at the repository root, formatted with 4-space indentation.
+
+If a file in `meta/` is missing or unreadable, the script logs a warning and skips that entry.
+
+<Note>
+  `generate_metadata.py` is used when rebuilding the full `metadata.json` from individual per-icon files. For most imports, `import-icon.ts` updates `metadata.json` directly and this script is not needed.
+</Note>
+
+---
+
+## convert_svg_assets.py
+
+A Python script that converts SVG files to PNG and WebP formats using [Inkscape](https://inkscape.org/). It processes all icons registered in `metadata.json`, including all theme and wordmark variants.
+
+**Usage**
+
+```bash
+# Convert all icons (skip already-converted files)
+python scripts/convert_svg_assets.py
+
+# Convert a single SVG file or URL
+python scripts/convert_svg_assets.py path/to/icon.svg
+python scripts/convert_svg_assets.py https://example.com/icon.svg
+
+# Force re-conversion of a specific icon and all its variants
+python scripts/convert_svg_assets.py --force-retry <ICON_NAME>
+
+# Control parallelism (default: 4 threads)
+python scripts/convert_svg_assets.py --threads 8
+```
+
+**Arguments**
+
+<ParamField path="file" type="string">
+  Optional path or URL to a single SVG file to process. When provided, only that file is converted.
+</ParamField>
+
+<ParamField path="--force-retry" type="string">
+  Icon name (without extension) to force re-conversion for, including all of its registered variants (light, dark, wordmark).
+</ParamField>
+
+<ParamField path="--threads" type="number" default="4">
+  Number of parallel threads to use when converting multiple icons.
+</ParamField>
+
+**What it does**
+
+- Loads `metadata.json` to determine which icon variants exist (base, `colors.light`, `colors.dark`, `wordmark.light`, `wordmark.dark`)
+- For each SVG, preprocesses the file to resolve CSS variables, fix relative units (`em`, `100%`), and remove CSS properties that Inkscape does not support
+- Converts each SVG to a 512px-tall PNG with a transparent background using the Inkscape CLI
+- Converts each PNG to WebP using Pillow
+- Skips icons where both PNG and WebP outputs already exist (unless `--force-retry` is specified)
+- Removes stale PNG and WebP files that no longer have a corresponding SVG or metadata entry
+- Processes PNG-only icons (no SVG source) and converts them to WebP
+
+<Warning>
+  Inkscape must be installed and available on `PATH`. The script exits with an error if Inkscape is not found.
+
+  - macOS: `brew install inkscape`
+  - Ubuntu/Debian: `sudo apt-get install -y inkscape`
+</Warning>
+
+---
+
+## generate_icons.py
+
+A Python script that downloads icon assets from a source URL and converts them to PNG and WebP. It is driven by issue form input and used in the legacy issue-based submission workflow.
+
+**Usage**
+
+```bash
+INPUT_ISSUE_FORM='<json>' python scripts/generate_icons.py <type> <action>
+```
+
+**What it does**
+
+- Reads the issue form JSON from the `INPUT_ISSUE_FORM` environment variable
+- Downloads the icon asset from the URL provided in the issue form
+- For SVG icons: saves the SVG to `svg/`, converts to PNG using Inkscape, then converts PNG to WebP
+- For PNG icons: saves the PNG to `png/`, then converts to WebP
+- Writes output files to `svg/`, `png/`, and `webp/` directories
+
+<Note>
+  `generate_icons.py` is part of the legacy GitHub issue-based submission flow. New submissions use the PocketBase-backed pipeline driven by `import-icon.ts` and the `add-icon.yml` workflow.
+</Note>

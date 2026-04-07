@@ -1,0 +1,83 @@
+---
+title: "Introduction"
+description: "Learn what Dashboard Icons is and how it works"
+---
+
+Dashboard Icons is a collection of over 1800 curated icons for services, applications, and tools — designed specifically for self-hosted dashboards and app directories.
+
+Every icon is maintained by the [Homarr Labs](https://github.com/homarr-labs) team and a community of contributors. Icons are optimized for clarity at small sizes and are consistent in style across the entire collection.
+
+## What's in the collection
+
+The collection covers hundreds of popular self-hosted services and tools, including:
+
+- **Media**: Plex, Jellyfin, Emby, Kodi, Navidrome
+- **Productivity**: Nextcloud, Vaultwarden, Paperless-ngx, BookStack
+- **Networking**: Pi-hole, AdGuard Home, Nginx Proxy Manager, Traefik
+- **Infrastructure**: Docker, Portainer, Proxmox, Unraid, TrueNAS
+- **Home automation**: Home Assistant, Node-RED, Zigbee2MQTT
+- **Monitoring**: Grafana, Prometheus, Uptime Kuma, Netdata
+
+...and hundreds more. Browse the full collection at [dashboardicons.com](https://dashboardicons.com).
+
+## Formats and variants
+
+Each icon is available in three delivery formats:
+
+| Format | Description |
+|--------|-------------|
+| **SVG** | Vector source — scales to any size without quality loss |
+| **PNG** | Raster at 512px height — auto-generated from SVG |
+| **WebP** | Raster at 512px height — auto-generated from SVG |
+
+Many icons also ship in **light and dark variants** for theme compatibility:
+
+- `-light` suffix — optimized for dark backgrounds (e.g., `github-light.svg`)
+- `-dark` suffix — optimized for light backgrounds (e.g., `github-dark.svg`)
+
+Icons without a variant suffix work well on both backgrounds.
+
+## How icons are delivered
+
+Icons are served via CDN with no account or API key required.
+
+**jsDelivr (recommended):**
+```
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons
+```
+
+**GitHub raw URLs (alternative):**
+```
+https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main
+```
+
+jsDelivr is recommended for production use — it is globally distributed, cached, and handles high traffic reliably.
+
+## Compatible dashboards
+
+Dashboard Icons integrates with all major self-hosted dashboard applications:
+
+- **[Homarr](https://github.com/ajnart/homarr)** — built-in Dashboard Icons support
+- **[Homepage](https://github.com/gethomepage/homepage)** — use CDN URLs in service definitions
+- **[Dashy](https://github.com/Lissy93/dashy)** — reference icons by CDN URL
+- **[Heimdall](https://github.com/linuxserver/Heimdall)** — upload or link icons directly
+- Any dashboard that accepts image URLs
+
+## The companion website
+
+[dashboardicons.com](https://dashboardicons.com) lets you search and browse the full collection, preview icons in light and dark themes, copy CDN links directly, and submit new icon requests using a built-in form.
+
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="bolt" href="/quickstart">
+    Get your first icon into a dashboard in minutes.
+  </Card>
+  <Card title="CDN links" icon="link" href="/using-icons/cdn-links">
+    Learn the URL pattern and base URL options.
+  </Card>
+  <Card title="Formats and variants" icon="images" href="/using-icons/formats-and-variants">
+    Understand SVG, PNG, WebP, and light/dark variants.
+  </Card>
+  <Card title="Submit an icon" icon="plus" href="/contributing/submitting-icons">
+    Request a missing icon or contribute one yourself.
+  </Card>
+</CardGroup>

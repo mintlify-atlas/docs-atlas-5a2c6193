@@ -1,0 +1,69 @@
+---
+title: "Icon specifications"
+description: "Technical requirements for icon files submitted to Dashboard Icons"
+---
+
+All icons in the collection follow a consistent set of technical requirements. Review these specifications before submitting an icon to avoid delays in review.
+
+## Format requirements
+
+SVG is the only accepted submission format. PNG and WebP are generated automatically by the pipeline.
+
+| Format | Source | Dimensions | Transparency |
+|--------|--------|------------|--------------|
+| SVG | Submitted by contributor | Vector (scales to any size) | Preserved from source |
+| PNG | Auto-generated | 512px height, width auto (aspect ratio preserved) | Enabled |
+| WebP | Auto-generated | 512px height, width auto (aspect ratio preserved) | Enabled |
+
+<Note>Do not submit PNG or WebP files. Only SVG submissions are accepted. Raster formats are generated automatically from your SVG after approval.</Note>
+
+## Quality standards
+
+- **Clean SVG:** The file must not contain embedded raster images. Export from a vector source, not from a screenshot or bitmap trace.
+- **Proper cropping:** Remove all empty space around the icon so it centers correctly in dashboards. Use [SVG Crop](https://svgcrop.com/) if you need help trimming the canvas.
+- **No upscaling:** Do not artificially enlarge a low-resolution source. Maintain the original quality of the artwork.
+
+## Light and dark variants
+
+Some icons require separate versions for light and dark backgrounds. Create variants only for monochrome or single-color icons that would not be clearly visible on one of the two background types.
+
+| Variant | Suffix | Background | What to adjust |
+|---------|--------|------------|----------------|
+| Light | `-light` | Dark backgrounds | Invert or lighten black elements |
+| Dark | `-dark` | Light backgrounds | Invert or darken white elements |
+
+**Example:** `github-light.svg` is the light variant of `github.svg`, optimized for dark-themed dashboards.
+
+<Tip>Use [DEEditor](https://deeditor.com/) to adjust icon colors when preparing light and dark variants. It provides a straightforward interface for inverting and tweaking SVG color values.</Tip>
+
+### Wordmark variants
+
+Icons that include the brand's text or wordmark alongside the icon graphic use an extended suffix:
+
+- `-wordmark-light` — wordmark icon for dark backgrounds
+- `-wordmark-dark` — wordmark icon for light backgrounds
+
+**Example:** `perplexity-wordmark-light.svg`
+
+### When to create variants
+
+Create light and dark variants only when the base icon is not clearly visible on one or both backgrounds. Icons with strong contrast on both light and dark backgrounds do not need variants.
+
+## File naming
+
+All icon filenames must use kebab-case: lowercase letters and hyphens only. No spaces, underscores, or uppercase characters.
+
+| Service name | File name |
+|---|---|
+| Nextcloud Calendar | `nextcloud-calendar.svg` |
+| Plex | `plex.svg` |
+| GitHub (light variant) | `github-light.svg` |
+| GitHub (dark variant) | `github-dark.svg` |
+| Perplexity (light wordmark) | `perplexity-wordmark-light.svg` |
+
+**Valid suffixes:**
+
+- `-light`
+- `-dark`
+- `-wordmark-light`
+- `-wordmark-dark`

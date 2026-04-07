@@ -1,0 +1,70 @@
+---
+title: "Categories"
+description: "Icon categories used for organizing and searching the Dashboard Icons collection"
+---
+
+Categories are tags attached to icons in `metadata.json` that help with discovery and filtering. They appear in the `categories` array for each icon entry.
+
+## How categories work
+
+- An icon can have **multiple categories** or **none at all**
+- Categories are used to filter icons on [dashboardicons.com](https://dashboardicons.com)
+- They are community-maintained and may evolve as new icons are added
+
+```json
+{
+  "8311": {
+    "categories": ["network", "monitoring"],
+    ...
+  }
+}
+```
+
+## Common categories
+
+The following categories appear throughout the collection:
+
+| Category | Description |
+|----------|-------------|
+| `network` | Networking tools, routers, switches, and firewalls |
+| `monitoring` | Monitoring and observability platforms |
+| `media-servers` | Media server software such as Plex, Jellyfin, and Emby |
+| `music-streaming` | Music streaming services and self-hosted audio servers |
+| `download` | Download managers and torrent clients |
+| `storage` | File storage, NAS software, and backup tools |
+| `security` | Security, authentication, and access control tools |
+| `home-automation` | Home automation platforms and smart home integrations |
+| `communication` | Chat, email, and messaging applications |
+| `development` | Development tools, CI/CD platforms, and code hosting |
+| `database` | Database management systems and database UIs |
+| `cloud` | Cloud services and cloud provider platforms |
+| `vpn` | VPN services and self-hosted VPN solutions |
+| `dns` | DNS servers, resolvers, and management tools |
+| `container` | Container management, orchestration, and registries |
+
+<Note>
+  Categories are community-maintained. The list above reflects common values found in the collection, but new categories may be introduced as the collection grows, and naming conventions may vary between entries.
+</Note>
+
+## Searching by category
+
+On [dashboardicons.com](https://dashboardicons.com), you can filter the icon browser by category to narrow down results. This is useful when looking for all icons related to a specific domain, such as finding every monitoring tool at a glance.
+
+## Using categories in metadata.json
+
+If you are building a tool that consumes `metadata.json`, you can filter icons by category programmatically:
+
+```javascript
+const metadata = await fetch(
+  'https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/metadata.json'
+).then(r => r.json());
+
+// Get all icons in the "monitoring" category
+const monitoringIcons = Object.entries(metadata)
+  .filter(([, icon]) => icon.categories.includes('monitoring'))
+  .map(([name]) => name);
+```
+
+<Tip>
+  Category values in `metadata.json` are not always normalized — you may encounter mixed casing such as `"Media-Servers"` alongside `"media-servers"`. Use case-insensitive comparison when filtering programmatically.
+</Tip>

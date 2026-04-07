@@ -1,0 +1,98 @@
+---
+title: "Formats and variants"
+description: "Understand the available icon formats, sizes, and light/dark variants"
+---
+
+Dashboard Icons provides each icon in three formats and, where applicable, in light and dark theme variants.
+
+## Available formats
+
+| Format | Extension | Dimensions | Use case |
+|--------|-----------|------------|----------|
+| SVG | `.svg` | Scales to any size (vector) | Preferred for all uses — sharp at any resolution |
+| PNG | `.png` | 512px height, auto width | Raster fallback for environments that don't support SVG |
+| WebP | `.webp` | 512px height, auto width | Modern raster format with smaller file size than PNG |
+
+<Tip>Use SVG whenever your dashboard or application supports it. SVG scales perfectly at any screen resolution and has no quality loss when resized.</Tip>
+
+### SVG
+
+SVG is the original source format for every icon. Because it is vector-based, it scales to any size without losing quality. This is the recommended format for dashboards, configuration files, and any context where crisp rendering matters.
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg
+```
+
+### PNG
+
+PNG icons are auto-generated at **512px height** with the width scaled proportionally to preserve the original aspect ratio. Transparency is enabled. Use PNG when your dashboard or application does not support SVG.
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/plex.png
+```
+
+### WebP
+
+WebP icons are also auto-generated at **512px height** with proportional width. WebP is a modern image format that produces smaller file sizes than PNG at equivalent quality, which can improve page load times. Use WebP if your environment supports it and file size matters.
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/plex.webp
+```
+
+## Variants
+
+Some icons exist in theme-specific variants to ensure they are visible on both light and dark backgrounds.
+
+### Light variant (`-light`)
+
+The `-light` suffix marks icons optimized for **dark backgrounds**. These variants have their dark and black elements inverted or lightened so the icon remains visible on a dark-themed dashboard.
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-light.svg
+```
+
+### Dark variant (`-dark`)
+
+The `-dark` suffix marks icons optimized for **light backgrounds**. These variants have white elements inverted or darkened so the icon does not disappear on a light-themed dashboard.
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github-dark.svg
+```
+
+### Wordmark variants
+
+Some icons include a brand's text or wordmark alongside the logo. These use `-wordmark-light` and `-wordmark-dark` suffixes, following the same convention:
+
+- `-wordmark-light` — wordmark icon for dark backgrounds
+- `-wordmark-dark` — wordmark icon for light backgrounds
+
+```text
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/perplexity-wordmark-light.svg
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/perplexity-wordmark-dark.svg
+```
+
+### Which icons have variants?
+
+Not all icons have light and dark variants. Variants are only added for icons where the base design is not clearly visible on one or both backgrounds — for example, a logo that is entirely white or entirely black. Icons with good contrast on both backgrounds have no variants and use only the base name.
+
+## Choosing a format programmatically
+
+If you are building an application that selects formats based on context, here is a simple decision guide:
+
+```text
+SVG supported?         → use SVG
+Modern browser/app?    → use WebP
+Legacy or wide compat? → use PNG
+```
+
+```javascript
+function getIconUrl(name, format = 'svg') {
+  const base = 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons';
+  return `${base}/${format}/${name}.${format}`;
+}
+
+// Examples
+getIconUrl('plex');           // SVG (default)
+getIconUrl('plex', 'png');    // PNG
+getIconUrl('plex', 'webp');   // WebP
+```

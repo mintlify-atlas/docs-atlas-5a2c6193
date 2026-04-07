@@ -1,0 +1,95 @@
+---
+title: "Add Icon Workflow"
+description: "GitHub Actions workflow for importing approved icon submissions into the collection"
+---
+
+The `add-icon.yml` GitHub Actions workflow imports approved PocketBase submissions into the Dashboard Icons collection. It handles the full import pipeline: fetching submission data, downloading icon assets, committing files to the repository, updating `metadata.json`, and marking the submission as added in PocketBase.
+
+## What it does
+
+<Steps>
+  <Step title="Fetch the submission">
+    Retrieves the submission record from PocketBase using the provided `submissionId`, including expanded `created_by` and `approved_by` user data.
+  </Step>
+  <Step title="Download icon assets">
+    Downloads each asset file from PocketBase and writes it to the appropriate directory based on file extension: `svg/`, `png/`, or `webp/`.
+  </Step>
+  <Step title="Commit files to the repository">
+    Commits the downloaded asset files to the repository. The commit message attributes both the submitter and the approver as co-authors using GitHub's noreply email format.
+  </Step>
+  <Step title="Update metadata.json">
+    Upserts the icon entry in `metadata.json` with the base format, aliases, categories, theme variant references, and contributor information.
+  </Step>
+  <Step title="Mark submission as added">
+    Updates the PocketBase submission record status to `added_to_collection` via a PATCH request.
+  </Step>
+</Steps>
+
+## Required secrets
+
+<ParamField path="secrets.PB_URL" type="string" required>
+  PocketBase base URL (e.g., `https://pb.example.com`). Must not have a trailing slash.
+</ParamField>
+
+<ParamField path="secrets.PB_ADMIN_TOKEN" type="string" required>
+  PocketBase superuser or impersonation token with permission to read submissions and update their status.
+</ParamField>
+
+## Inputs
+
+<ParamField path="inputs.submissionId" type="string" required>
+  The PocketBase record ID of the approved submission to import.
+</ParamField>
+
+<ParamField path="inputs.dryRun" type="boolean" default="false">
+  When `true`, skips all writes, the git commit, and the PocketBase status update. Logs what would have happened instead. Useful for previewing an import before applying it.
+</ParamField>
+
+## Triggering the workflow
+
+### Via GitHub API
+
+Use a token with `workflow` scope. Replace `<OWNER>` and `<REPO>` with your repository details:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/add-icon.yml/dispatches \
+  -d '{
+    "ref": "main",
+    "inputs": {
+      "submissionId": "SUBMISSION_RECORD_ID",
+      "dryRun": "false"
+    }
+  }'
+```
+
+### From another workflow
+
+Call the workflow as a reusable workflow using `uses`:
+
+```yaml
+jobs:
+  add-icon:
+    uses: ./.github/workflows/add-icon.yml
+    with:
+      submissionId: ${{ github.event.inputs.submissionId }}
+      dryRun: false
+    secrets:
+      PB_URL: ${{ secrets.PB_URL }}
+      PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+```
+
+## Dry run mode
+
+Set `dryRun: true` to preview what the workflow would do without making any changes. In dry run mode:
+
+- Asset downloads are skipped — the script logs what it would download and where
+- `metadata.json` is not written — the upserted entry is logged to the console
+- The git commit is not created
+- The PocketBase submission status is not updated
+
+<Tip>
+  Use dry run mode when troubleshooting a failed import or before running the workflow on a new submission for the first time.
+</Tip>

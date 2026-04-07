@@ -1,122 +1,75 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Dashboard Icons",
+  "theme": "willow",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#747474",
+    "light": "#131313",
+    "dark": "#d4d9d2"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "https://media.brand.dev/8146807f-a8ac-46e0-a220-fa742a9ce869.png",
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/homarr-labs/dashboard-icons"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/homarr-labs/dashboard-icons"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction",
+              "quickstart"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Using Icons",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "using-icons/cdn-links",
+              "using-icons/formats-and-variants",
+              "using-icons/dashboard-integrations",
+              "using-icons/searching-icons"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Contributing",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "contributing/submitting-icons",
+              "contributing/icon-specifications",
+              "contributing/improving-the-repo"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Icon Schema",
             "pages": [
-              "api-reference/introduction"
+              "reference/metadata-schema",
+              "reference/file-naming",
+              "reference/categories"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Automation",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "reference/add-icon-workflow",
+              "reference/scripts"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }
